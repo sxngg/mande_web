@@ -7,7 +7,7 @@ export default {
 
 <template>
 
-    <body>
+    <body class="body-home">
 
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
             <header class="masthead mb-auto">
@@ -102,14 +102,13 @@ a:hover {
  * Base structure
  */
 
-html,
-body {
+.body-home{
     background: url(../assets/background.jpg);
     background-size: cover;
     height: 100vh;
 }
 
-body {
+.body-home{
     display: -ms-flexbox;
     display: flex;
     color: #fff;

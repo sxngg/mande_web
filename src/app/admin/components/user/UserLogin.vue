@@ -16,36 +16,44 @@
     </div>
   </body> -->
 
-  <body class="text-center">
-    <form class="form-signin">
-      <h1 class="h1 mb-3 font-weight-normal">BIENVENIDO</h1>
-      <h3 class="h3 mb-3 font-weight-normal"> INGRESA COMO USUARIO</h3>
-      <div class="container-email">
-        <label for="inputEmail" class="sr-only email-input">Email</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-      </div>
-      <div class="container-phone">
-        <label for="inputPhone" class="sr-only">Telefono</label>
-        <input type="password" id="inputPhone" class="form-control" placeholder="Phone" required>
-      </div>
+  <body class="text-center body-uslog">
+    <div class="main-container">
+      <form class="form-signin">
+        <div class="images">
+          <img class="user-img" src="../../../../assets/user.png">
+          <img class="who-img" src="../../../../assets/who.png">
+        </div>
+        <h1 class="h1 mb-3 font-weight-normal">BIENVENIDO</h1>
+        <h3 class="h3 mb-3 font-weight-normal"> INGRESA COMO USUARIO</h3>
+        <div class="container-email">
+          <label for="inputEmail" class="sr-only email-input">Email</label>
+          <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        </div>
+        <div class="container-phone">
+          <label for="inputPhone" class="sr-only">Telefono</label>
+          <input type="password" id="inputPhone" class="form-control" placeholder="Phone" required>
+        </div>
 
+        <div class="btn-container">
+          <button class="btn btn-lg btn-primary btn-block btn-ingresar" type="submit">Ingresar</button>
+        </div>
+        <div class="link-to-register mb-3">
+          <p> ¿No tienes una cuenta?
+            <RouterLink class="link-to-register-user" to="/user-register">Creala ahora</RouterLink>
+          </p>
 
-      <button class="btn btn-lg btn-primary btn-block btn-ingresar" type="submit">Ingresar</button>
+        </div>
 
-      <div class="link-to-register mb-3">
-        <label>
-          ¿No tienes cuenta? <a href="https:facebook.com">Crea una ahora</a>
-        </label>
-      </div>
-
-    </form>
+      </form>
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p> Proyecto universitario <br> <b>Universidad del Valle</b></p>
+        </div>
+      </footer>
+    </div>
   </body>
 
-  <footer class="mastfoot mt-auto">
-    <div class="inner">
-      <p> Proyecto universitario <br> <b>Universidad del Valle</b></p>
-    </div>
-  </footer>
+
 
 </template>
 
@@ -71,12 +79,19 @@ export default {
 </script>
 
 <style>
-html,
-body {
-  display: center;
-  justify-content: center;
+.body-uslog {
+  background: url('../../../../assets/background.jpg');
+  background-size: cover;
+  height: 100vh;
+}
 
-  height: 100%;
+.main-container {
+  padding-top: 80px;
+  padding-bottom: 40px;
+}
+
+.text-center {
+  text-align: left !important;
 }
 
 a {
@@ -84,26 +99,36 @@ a {
 }
 
 a:hover {
-  color: aqua;
+  color: whitesmoke;
 }
 
-body {
-  margin-top: 50px;
-  display: -ms-flexbox;
+.images{
+  position: relative;
+  left: 92%;
+  top: 60px;
+}
+.user-img {
+  
+  width: 60px;
+  height: 60px;
+}
+
+.who-img {
+  position: relative;
+  bottom: 25px;
+  width: 30px;
+  height: 30px;
+}
+
+.btn-container {
+  padding: 20px;
   display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background: url('../../../../assets/background.jpg');
-  background-size: cover;
+  justify-content: center;
 }
 
 .btn-ingresar {
   background-color: rgb(0, 0, 0);
   border: none;
-  margin-left: 85px;
-  margin-top: 10px;
 }
 
 .btn-ingresar:hover {
@@ -111,7 +136,9 @@ body {
 }
 
 .link-to-register {
-  padding: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: -15px;
 }
 
 .container-email {
@@ -128,7 +155,8 @@ body {
   text-align: center;
 }
 
-.form-signin {
+.form-signin {  
+
   width: 100%;
   max-width: 330px;
   padding: 15px;
@@ -164,11 +192,10 @@ body {
 }
 
 .mastfoot {
-    padding-top: 25px;
-    display: flex;
-    color: rgba(255, 255, 255, .5);
-    justify-content: center;
-    align-items: center;
-    letter-spacing: 5px;
+  display: flex;
+  color: rgba(255, 255, 255, .5);
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 5px;
 }
 </style>
