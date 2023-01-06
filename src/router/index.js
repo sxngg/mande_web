@@ -10,13 +10,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/user',
+    path: '/user-login',
     ...userRoutes
     //name: 'admin',
     //component: () => import('../app/admin/Admin.vue')
     //component: adminRoutes
     
     }
+    
   /** 
   {
     path: '/admin',

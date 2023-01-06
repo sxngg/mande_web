@@ -15,7 +15,7 @@ export default {
                     <h3 class="masthead-brand">MANDE</h3>
                     <nav class="nav nav-masthead justify-content-center">
                         <RouterLink class="nav-link active" to="/login-worker">Inicia sesión como trabajador</RouterLink>
-                        <RouterLink class="nav-link active" to="/login-user">Inicia sesión como usuario</RouterLink>
+                        <RouterLink class="nav-link active" to="/user-login">Inicia sesión como usuario</RouterLink>
                     </nav>
                 </div>
             </header>
