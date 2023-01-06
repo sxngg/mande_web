@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 import Home from '../components/Home';
-import adminRoutes from '../app/admin/routes/index'
+import userRoutes from '../app/admin/routes/index'
 
 const routes = [
   {
@@ -10,8 +10,8 @@ const routes = [
     component: Home
   },
   {
-    path: '/admin',
-    ...adminRoutes
+    path: '/user',
+    ...userRoutes
     //name: 'admin',
     //component: () => import('../app/admin/Admin.vue')
     //component: adminRoutes
