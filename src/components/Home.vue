@@ -10,15 +10,7 @@ export default {
     <body class="body-home">
 
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-            <header class="masthead mb-auto">
-                <div class="inner">
-                    <h3 class="masthead-brand">MANDE</h3>
-                    <nav class="nav nav-masthead justify-content-center">
-                        <RouterLink class="nav-link active" to="/login-worker">Inicia sesión como trabajador</RouterLink>
-                        <RouterLink class="nav-link active" to="/user-login">Inicia sesión como usuario</RouterLink>
-                    </nav>
-                </div>
-            </header>
+            
             <main role="main" class="inner cover container-main">
                 <h1 class="cover-heading">CONECTA AHORA</h1>
                 <p class="lead">Somos un intermediario entre tú y el trabajador que estás necesitando. <br>
@@ -26,9 +18,9 @@ export default {
                 <p class="registrate"> REGISTRATE </p>
                 <p class="como"> como </p>
                 <p class="lead">
-                    <RouterLink class="btn btn-lg btn-secondary register-worker-button" to="/registerWorker">Como
+                    <RouterLink class="btn btn-lg btn-secondary register-worker-button" to="/worker-register">Como
                         trabajador</RouterLink>
-                    <RouterLink class="btn btn-lg btn-secondary register-user-button" to="/registerUser">Como usuario
+                    <RouterLink class="btn btn-lg btn-secondary register-user-button" to="/user-register">Como usuario
                     </RouterLink>
                 </p>
             </main>
@@ -53,6 +45,13 @@ a:hover {
     display: flex;
     justify-content: center;
     text-align: center;
+}
+
+.h-100{
+    height: auto !important;
+}
+.p-3{
+    padding: 50px !important;
 }
 
 .cover-heading {
@@ -102,13 +101,13 @@ a:hover {
  * Base structure
  */
 
-.body-home{
+body{
     background: url(../assets/background.jpg);
     background-size: cover;
     height: 100vh;
 }
 
-.body-home{
+.body{
     display: -ms-flexbox;
     display: flex;
     color: #fff;
@@ -117,8 +116,7 @@ a:hover {
 }
 
 .cover-container {
-
-    max-width: 42em;
+    max-width: auto;
 }
 
 

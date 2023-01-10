@@ -1,44 +1,31 @@
+<script>
+</script>
+
 <template>
-  <!-- PRUEBA CONEXIÓN BACK
-  <body class="bod">
-    <h1> USER INDEX</h1>
-
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card bg-primary">
-          <div class="card-header">
-            <h3 v-for="(user, index) in users" :key="index"> {{ user.email }} </h3>
-            <h3 v-for="(pr,index) in prueba" :key="index">{{ pr }}</h3>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </body> -->
 
   <body class="text-center body-uslog">
     <div class="main-container">
       <form class="form-signin">
         <div class="images">
-          <img class="user-img" src="../../../../assets/user.png">
-          <img class="who-img" src="../../../../assets/who.png">
+          <img class="worker-img" src="../../../../assets/workers.png">
         </div>
         <h1 class="h1 mb-3 font-weight-normal">BIENVENIDO</h1>
-        <h3 class="h3 mb-3 font-weight-normal"> INGRESA COMO <b>USUARIO</b></h3>
+        <h3 class="h3 mb-3 font-weight-normal"> INGRESA COMO <b>TRABAJADOR</b></h3>
         <div class="container-email">
           <label for="inputEmail" class="sr-only email-input">Email</label>
-          <input type="email" v-model="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+          <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
         </div>
         <div class="container-phone">
           <label for="inputPhone" class="sr-only">Telefono</label>
-          <input type="password" v-model="phone" id="inputPhone" class="form-control" placeholder="Telefono" required>
+          <input type="password" id="inputPhone" class="form-control" placeholder="Telefono" required>
         </div>
+
         <div class="btn-container">
-          <button class="btn btn-lg btn-primary btn-block btn-ingresar" @click.prevent="authUser" type="submit">Ingresar</button>
+          <button class="btn btn-lg btn-primary btn-block btn-ingresar" type="submit">Ingresar</button>
         </div>
         <div class="link-to-register mb-3">
           <p> ¿No tienes una cuenta?
-            <RouterLink class="link-to-register-user" to="/user-register">Creala ahora</RouterLink>
+            <RouterLink class="link-to-register-user" to="/worker-register">Creala ahora</RouterLink>
           </p>
 
         </div>
@@ -56,47 +43,10 @@
 
 </template>
 
-<script setup>
 
-import { ref } from 'vue'
-import AuthService from '../../../../services/AuthService.js'
-let email = ref("")
-let phone = ref("")
-
-const authUser = async()=>{
-  console.log(email.value)
-  console.log(phone.value)
-  const auth = new AuthService()
-  const success = await auth.login(email.value,phone.value)
-  if(success){
-    alert('Exito')
-  }else{
-    alert('No exito')
-  }
-}
-
-/** 
-import { ref } from 'vue';
-let users = ref([]);
-const prueba = ref(["a", "b"]);
-import userService from '../../../../services/user-service'
-export default {
-  name: "user-login",
-  data() {
-    return {
-      users,
-      prueba
-    }
-  },
-  async mounted() {
-    this.users = await userService.getUser();
-    //console.log(this.users)
-  }
-}*/
-</script>
 
 <style scoped>
-body{
+body {
   background: url('../../../../assets/background.jpg');
   background-size: cover;
   height: 100vh;
@@ -119,22 +69,17 @@ a:hover {
   color: whitesmoke;
 }
 
-.images{
+.images {
   position: relative;
   left: 40%;
   top: 0px;
-}
-.user-img {
   
-  width: 80px;
-  height: 80px;
 }
 
-.who-img {
-  position: relative;
-  bottom: 25px;
-  width: 30px;
-  height: 30px;
+.worker-img {
+  width: 80px;
+  height: 80px;
+  
 }
 
 .btn-container {
@@ -172,7 +117,7 @@ a:hover {
   text-align: center;
 }
 
-.form-signin {  
+.form-signin {
 
   width: 100%;
   max-width: 330px;

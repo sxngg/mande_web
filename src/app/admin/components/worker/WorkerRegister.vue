@@ -1,4 +1,6 @@
-<script>
+<script setup>
+import {ref} from 'vue'
+const checkedWorks = ref([]);
 </script>
 
 <template>
@@ -7,11 +9,10 @@
     <div class="main-container">
       <form class="form-signin">
         <div class="images">
-          <img class="user-img" src="../../../../assets/user.png">
-          <img class="who-img" src="../../../../assets/who.png">
+          <img class="worker-img" src="../../../../assets/workers.png">
         </div>
         <h1 class="h1 mb-3 font-weight-normal">EMPIEZA AHORA</h1>
-        <h3 class="h3 mb-3 font-weight-normal"> REGISTRATE COMO <b>USUARIO</b></h3>
+        <h3 class="h3 mb-3 font-weight-normal"> REGISTRATE COMO <b>TRABAJADOR</b></h3>
         <div class="container-form">
           <div class="row">
             <div class="col-md-6 mb-4">
@@ -48,26 +49,6 @@
             <label class="form-label" for="form3Example97">Dirección de residencia</label>
           </div>
 
-          <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
-
-            <h6 class="mb-0 me-4">Método de pago: </h6>
-
-            <div class="form-check form-check-inline mb-0 me-4">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="femaleGender"
-                value="option1" />
-              <label class="form-check-label" for="femaleGender">Efectivo</label>
-            </div>
-
-            <div class="form-check form-check-inline mb-0 me-4">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="maleGender" value="option2" />
-              <label class="form-check-label" for="maleGender">Débito</label>
-            </div>
-
-            <div class="form-check form-check-inline mb-0">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="otherGender" value="option3" />
-              <label class="form-check-label" for="otherGender">Crédito</label>
-            </div>
-          </div>
           <div class="form-outline">
             <label for="formFileSm" class="form-label">Imagen de perfil</label>
             <input class="form-control form-control-sm" id="formFileSm" type="file" />
@@ -83,6 +64,39 @@
             <input class="form-control form-control-sm" id="formFileSm" type="file" />
           </div>
 
+          <div class="works-list">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="option1" value="medico" v-model="checkedWorks">
+              <label class="form-check-label" for="option1">Médico</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="option2" value="estilista" v-model="checkedWorks">
+              <label class="form-check-label" for="option2">Estilista</label>
+            </div>
+            <span>checkedNames: {{ checkedWorks }}</span>
+
+            <!--
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="option3" value="option3">
+              <label class="form-check-label" for="option3">Barbero </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="option4" value="option4">
+              <label class="form-check-label" for="option4">Constructor </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="option5" value="option5">
+              <label class="form-check-label" for="option5">Conductor </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="option6" value="option6">
+              <label class="form-check-label" for="option6">Cocinero </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="option7" value="option7">
+              <label class="form-check-label" for="option7">Programador</label>
+            </div>-->
+          </div>
 
         </div>
 
@@ -90,8 +104,8 @@
           <button class="btn btn-lg btn-primary btn-block btn-ingresar" type="submit">Registrarse</button>
         </div>
         <div class="link-to-register mb-3">
-          <p> ¿Ya tienes una cuenta? 
-            <RouterLink class="link-to-register-user" to="/user-login">Ingresa</RouterLink>
+          <p> ¿Ya tienes una cuenta?
+            <RouterLink class="link-to-register-user" to="/worker-login">Ingresa</RouterLink>
           </p>
 
         </div>
@@ -252,6 +266,12 @@ body {
   text-align: left !important;
 }
 
+.works-list{
+  padding: 10px;
+  justify-content: center;
+  text-align: center;
+}
+
 a {
   color: black;
 }
@@ -270,17 +290,11 @@ a:hover {
   top: 0px;
 }
 
-.user-img {
-  width: 60px;
-  height: 60px;
+.worker-img {
+  width: 80px;
+  height: 80px;
 }
 
-.who-img {
-  position: relative;
-  bottom: 25px;
-  width: 30px;
-  height: 30px;
-}
 
 .btn-container {
   padding: 20px;
@@ -310,6 +324,7 @@ a:hover {
 .h1 {
   text-align: center;
 }
+
 
 .h3 {
   margin-top: -20px;

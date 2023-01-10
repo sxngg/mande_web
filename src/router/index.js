@@ -2,6 +2,12 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 import Home from '../components/Home';
 import userRoutes from '../app/admin/routes/index'
+import UserLogin from '../app/admin/components/user/UserLogin.vue'
+import UserRegister from '../app/admin/components/user/UserRegister.vue'
+import WorkerLogin from '../app/admin/components/worker/WorkerLogin.vue'
+import WorkerRegister from '../app/admin/components/worker/WorkerRegister.vue'
+
+
 
 const routes = [
   {
@@ -9,6 +15,31 @@ const routes = [
     name: 'home',
     component: Home
   },
+
+  {
+    path: '/user-login',
+    name: 'user-login',
+    component: UserLogin
+  },
+  
+  {
+    path: '/user-register',
+    name: 'user-register',
+    component: UserRegister
+  },
+  
+  {
+    path: '/worker-login',
+    name: 'worker-login',
+    component: WorkerLogin
+  },
+
+  {
+    path: '/worker-register',
+    name: 'worker-register',
+    component: WorkerRegister
+  }
+  /** 
   {
     path: '/user-login',
     ...userRoutes
@@ -16,7 +47,7 @@ const routes = [
     //component: () => import('../app/admin/Admin.vue')
     //component: adminRoutes
     
-    }
+    }*/
     
   /** 
   {
