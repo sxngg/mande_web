@@ -3,12 +3,11 @@
     <div class="inner">   
       <nav class="nav nav-masthead justify-content-center navbar-dark bg-dark">
         <RouterLink class="nav-link active" to="/">Home</RouterLink>
-        <RouterLink class="nav-link active" to="/worker-login">Inicia sesión como trabajador</RouterLink>
-        <RouterLink class="nav-link active" to="/user-login">Inicia sesión como usuario</RouterLink>
+        <!--<RouterLink class="nav-link active" to="/worker-login">Inicia sesión como trabajador</RouterLink>
+        <RouterLink class="nav-link active" to="/user-login">Inicia sesión como usuario</RouterLink>-->
       </nav>
     </div>
 
-    
   </header>
   <router-view></router-view>
 </template>

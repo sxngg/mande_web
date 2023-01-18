@@ -8,7 +8,7 @@
       <form class="form-signin">
         <div class="images">
           <img class="worker-img" src="../../../../assets/workers.png">
-        </div>
+        </div>  
         <h1 class="h1 mb-3 font-weight-normal">BIENVENIDO</h1>
         <h3 class="h3 mb-3 font-weight-normal"> INGRESA COMO <b>TRABAJADOR</b></h3>
         <div class="container-email">
@@ -21,7 +21,7 @@
         </div>
 
         <div class="btn-container">
-          <button class="btn btn-lg btn-primary btn-block btn-ingresar" type="submit">Ingresar</button>
+          <RouterLink class="btn btn-lg btn-secondary login-worker-button btn-ingresar" to="/worker-home">Ingresar</RouterLink>
         </div>
         <div class="link-to-register mb-3">
           <p> ¿No tienes una cuenta?
@@ -89,6 +89,7 @@ a:hover {
 }
 
 .btn-ingresar {
+  color: white;
   background-color: rgb(0, 0, 0);
   border: none;
 }

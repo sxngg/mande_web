@@ -22,6 +22,10 @@ export default {
                         trabajador</RouterLink>
                     <RouterLink class="btn btn-lg btn-secondary register-user-button" to="/user-register">Como usuario
                     </RouterLink>
+                    <RouterLink class="btn btn-lg btn-secondary login-worker-button" to="/worker-login">Ingresar
+                        trabajador</RouterLink>
+                    <RouterLink class="btn btn-lg btn-secondary login-user-button" to="/user-login">Ingresar usuario
+                    </RouterLink>
                 </p>
             </main>
 

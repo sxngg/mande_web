@@ -1,11 +1,39 @@
 <script>
+export default {
+  name: "user-register",
+  data(){
+    return{
+      client:{
+        name: null,
+        lastName: null,
+        email: null,
+        phone: null,
+        adress: null,
+        methodPay: null,
+       
+        imgProfile: null,
+         /**
+        imgDNI: null,
+        imgRecibo: null*/
+      }
+    }
+  },
+  methods: {
+    onStore(){
+      console.log(this.client)
+    },
+    handleFileChange(e) {
+      this.client.imgProfile = e.target.files[0];
+    },
+  },
+}
 </script>
 
 <template>
 
   <body class="text-center body-uslog">
     <div class="main-container">
-      <form class="form-signin">
+      <form @submit.prevent="onStore" class="form-signin">
         <div class="images">
           <img class="user-img" src="../../../../assets/user.png">
           <img class="who-img" src="../../../../assets/who.png">
@@ -16,13 +44,13 @@
           <div class="row">
             <div class="col-md-6 mb-4">
               <div class="form-outline">
-                <input type="text" id="form3Example1m" class="form-control form-control-lg" />
+                <input type="text" id="form3Example1m" v-model="client.name" class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example1m">Nombre</label>
               </div>
             </div>
             <div class="col-md-6 mb-4">
               <div class="form-outline">
-                <input type="text" id="form3Example1n" class="form-control form-control-lg" />
+                <input type="text" id="form3Example1n" v-model="client.lastName" class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example1n">Apellido</label>
               </div>
             </div>
@@ -31,46 +59,36 @@
           <div class="row">
             <div class="col-md-6 mb-4">
               <div class="form-outline mb-4">
-                <input type="email" id="form3Example8" class="form-control form-control-lg" />
+                <input type="email" id="form3Example8" v-model="client.email" class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example8">Email</label>
               </div>
             </div>
 
             <div class="col-md-6 mb-4">
               <div class="form-outline mb-4">
-                <input type="text" id="form3Example8" class="form-control form-control-lg" />
+                <input type="text" id="form3Example8" v-model="client.phone" class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example8">Telefono</label>
               </div>
             </div>
           </div>
           <div class="form-outline mb-4">
-            <input type="text" id="form3Example97" class="form-control form-control-lg" />
+            <input type="text" id="form3Example97" v-model="client.adress" class="form-control form-control-lg" />
             <label class="form-label" for="form3Example97">Dirección de residencia</label>
           </div>
 
           <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
 
-            <h6 class="mb-0 me-4">Método de pago: </h6>
-
-            <div class="form-check form-check-inline mb-0 me-4">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="femaleGender"
-                value="option1" />
-              <label class="form-check-label" for="femaleGender">Efectivo</label>
-            </div>
-
-            <div class="form-check form-check-inline mb-0 me-4">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="maleGender" value="option2" />
-              <label class="form-check-label" for="maleGender">Débito</label>
-            </div>
-
-            <div class="form-check form-check-inline mb-0">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="otherGender" value="option3" />
-              <label class="form-check-label" for="otherGender">Crédito</label>
-            </div>
+            <label for="method">Metodo de pago</label>
+            <select id="method" class="form-select" v-model="client.methodPay">
+              <option value="efectivo">Efectivo</option>
+              <option value="debito">Débito</option>
+            </select>
           </div>
+
           <div class="form-outline">
-            <label for="formFileSm" class="form-label">Imagen de perfil</label>
-            <input class="form-control form-control-sm" id="formFileSm" type="file" />
+            <label v-if="client.imgProfile" for="formFileSm" class="form-label">Imagen de perfil</label>
+            <input class="form-control  form-control-sm" id="formFileSm" type="file" @change="handleFileChange" />
+            
           </div>
 
           <div class="form-outline mb-4">
