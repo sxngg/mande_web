@@ -18,17 +18,23 @@ export default {
                 <p class="registrate"> REGISTRATE </p>
                 <p class="como"> como </p>
                 <p class="lead">
-                    <RouterLink class="btn btn-lg btn-secondary register-worker-button" to="/worker-register">Como
-                        trabajador</RouterLink>
-                    <RouterLink class="btn btn-lg btn-secondary register-user-button" to="/user-register">Como usuario
+                    <RouterLink class="btn btn-lg btn-secondary register-worker-button" to="/worker-register">
+                        Trabajador</RouterLink>
+                    <RouterLink class="btn btn-lg btn-secondary register-user-button" to="/user-register">Usuario
                     </RouterLink>
-                    <RouterLink class="btn btn-lg btn-secondary login-worker-button" to="/worker-login">Ingresar
-                        trabajador</RouterLink>
-                    <RouterLink class="btn btn-lg btn-secondary login-user-button" to="/user-login">Ingresar usuario
+                   
+                </p>
+                <p class="registrate"> INGRESA </p>
+                <p class="como"> como </p>
+                <p class="lead"> 
+                    <RouterLink class="btn btn-lg btn-secondary login-worker-button" to="/worker-login">Trabajador
+                        </RouterLink>
+                    <RouterLink class="btn btn-lg btn-secondary login-user-button" to="/user-login">Usuario
                     </RouterLink>
                 </p>
+                
             </main>
-
+            
             <footer class="mastfoot mt-auto">
                 <div class="inner">
                     <p> Proyecto universitario <br> <b>Universidad del Valle</b></p>
@@ -67,7 +73,7 @@ a:hover {
 }
 
 .registrate {
-    margin-top: 55px;
+    margin-top: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,15 +89,25 @@ a:hover {
 }
 
 .register-worker-button,
-.register-user-button {
+.register-user-button,
+.login-worker-button,
+.login-user-button {    
     display: flex;
     justify-content: center;
     margin-right: 10px;
     margin-left: 10px;
 }
 
+.btn-secondary:hover{
+    color: rgb(255, 255, 255);
+    text-shadow: none;
+    /* Prevent inheritance from `body` */
+    background-color: rgb(49, 49, 49);
+}
+
+
+
 .btn-secondary,
-.btn-secondary:hover,
 .btn-secondary:focus {
     color: #333;
     text-shadow: none;
@@ -120,7 +136,7 @@ body{
 }
 
 .cover-container {
-    max-width: auto;
+    min-height: calc(100vh - footer-height);
 }
 
 
@@ -185,10 +201,15 @@ body{
  * Footer
  */
 .mastfoot {
+    margin-top: 20px;
     display: flex;
     color: rgba(255, 255, 255, .5);
     justify-content: center;
     align-items: center;
     letter-spacing: 5px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
 </style>

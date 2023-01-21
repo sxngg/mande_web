@@ -1,29 +1,48 @@
 <script>
+import { registerUser } from '../../../../services/user-service.js';
+import { createToaster } from "@meforma/vue-toaster";
+const toaster = createToaster({ });
 export default {
   name: "user-register",
-  data(){
-    return{
-      client:{
-        name: null,
-        lastName: null,
+  data() {
+    return {
+      client: {
+        user_name: null,
+        user_last_name: null,
         email: null,
-        phone: null,
-        adress: null,
-        methodPay: null,
-       
-        imgProfile: null,
-         /**
-        imgDNI: null,
-        imgRecibo: null*/
+        phone_number: null,
+        address: null,
+        payment_method: null,
+        public_services: null
       }
     }
   },
+  computed: {
+    formIsValid() {
+      return this.email && this.user_name;
+    },
+  },
   methods: {
-    onStore(){
+    async onStore() {
       console.log(this.client)
+      const data = await registerUser(this.client);
+      console.log(data);
+
+      toaster.show('Te has registrado con éxito', { 
+      duration:1000,
+      type: "success",
+      position: "top",
+      maxToasts: 1,
+
+    });
+        setTimeout(() => {
+          this.$router.push('/user-login');
+        }, 1000)
+
+      
     },
     handleFileChange(e) {
-      this.client.imgProfile = e.target.files[0];
+      this.client.public_services = e.target.files[0];
     },
   },
 }
@@ -44,13 +63,15 @@ export default {
           <div class="row">
             <div class="col-md-6 mb-4">
               <div class="form-outline">
-                <input type="text" id="form3Example1m" v-model="client.name" class="form-control form-control-lg" />
+                <input type="text" id="form3Example1m" v-model="client.user_name"
+                  class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example1m">Nombre</label>
               </div>
             </div>
             <div class="col-md-6 mb-4">
               <div class="form-outline">
-                <input type="text" id="form3Example1n" v-model="client.lastName" class="form-control form-control-lg" />
+                <input type="text" id="form3Example1n" v-model="client.user_last_name"
+                  class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example1n">Apellido</label>
               </div>
             </div>
@@ -66,49 +87,44 @@ export default {
 
             <div class="col-md-6 mb-4">
               <div class="form-outline mb-4">
-                <input type="text" id="form3Example8" v-model="client.phone" class="form-control form-control-lg" />
+                <input type="text" id="form3Example8" v-model="client.phone_number"
+                  class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example8">Telefono</label>
               </div>
             </div>
           </div>
           <div class="form-outline mb-4">
-            <input type="text" id="form3Example97" v-model="client.adress" class="form-control form-control-lg" />
+            <input type="text" id="form3Example97" v-model="client.address" class="form-control form-control-lg" />
             <label class="form-label" for="form3Example97">Dirección de residencia</label>
           </div>
 
           <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
 
             <label for="method">Metodo de pago</label>
-            <select id="method" class="form-select" v-model="client.methodPay">
+            <select id="method" class="form-select" v-model="client.payment_method">
               <option value="efectivo">Efectivo</option>
               <option value="debito">Débito</option>
             </select>
           </div>
 
           <div class="form-outline">
-            <label v-if="client.imgProfile" for="formFileSm" class="form-label">Imagen de perfil</label>
             <input class="form-control  form-control-sm" id="formFileSm" type="file" @change="handleFileChange" />
-            
+            <label v-if="client.public_services" for="formFileSm" class="form-label"></label>
+            <label>Recibo público</label>
+
           </div>
 
-          <div class="form-outline mb-4">
-            <label for="formFileSm" class="form-label">Imagen de tu documento</label>
-            <input class="form-control form-control-sm" id="formFileSm" type="file" />
-          </div>
-
-          <div class="form-outline mb-4">
-            <label for="formFileSm" class="form-label">Recibo público</label>
-            <input class="form-control form-control-sm" id="formFileSm" type="file" />
-          </div>
 
 
         </div>
 
         <div class="btn-container">
-          <button class="btn btn-lg btn-primary btn-block btn-ingresar" type="submit">Registrarse</button>
+          <button class="btn btn-lg btn-primary btn-block btn-ingresar"
+            :disabled="!client.user_name || !client.user_last_name || !client.email || !client.phone_number || !client.address || !client.payment_method || !client.public_services"
+            type="submit">Registrarse</button>
         </div>
         <div class="link-to-register mb-3">
-          <p> ¿Ya tienes una cuenta? 
+          <p> ¿Ya tienes una cuenta?
             <RouterLink class="link-to-register-user" to="/user-login">Ingresa</RouterLink>
           </p>
 
@@ -259,6 +275,11 @@ body {
   background: url('../../../../assets/background.jpg');
   background-size: cover;
   max-height: 100%;
+}
+
+.btn:disabled{
+  opacity: 50%; 
+  background-color: rgb(0, 0, 0);
 }
 
 .main-container {

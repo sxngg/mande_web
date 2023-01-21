@@ -27,14 +27,16 @@
         <h3 class="h3 mb-3 font-weight-normal"> INGRESA COMO <b>USUARIO</b></h3>
         <div class="container-email">
           <label for="inputEmail" class="sr-only email-input">Email</label>
-          <input type="email" v-model="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+          <input type="email" v-model="email" id="inputEmail" class="form-control" placeholder="Email" required
+            autofocus>
         </div>
         <div class="container-phone">
           <label for="inputPhone" class="sr-only">Telefono</label>
           <input type="password" v-model="phone" id="inputPhone" class="form-control" placeholder="Telefono" required>
         </div>
         <div class="btn-container">
-          <button class="btn btn-lg btn-primary btn-block btn-ingresar" @click.prevent="authUser" type="submit">Ingresar</button>
+          <button class="btn btn-lg btn-primary btn-block btn-ingresar" @click.prevent="authUser"
+            type="submit">Ingresar</button>
         </div>
         <div class="link-to-register mb-3">
           <p> ¿No tienes una cuenta?
@@ -57,21 +59,39 @@
 </template>
 
 <script setup>
-
+import { useRouter } from "vue-router";
+import { createToaster } from "@meforma/vue-toaster";
 import { ref } from 'vue'
 import AuthService from '../../../../services/AuthService.js'
 let email = ref("")
 let phone = ref("")
+const router = useRouter();
+const toaster = createToaster({ });
 
-const authUser = async()=>{
+const authUser = async () => {
   console.log(email.value)
   console.log(phone.value)
   const auth = new AuthService()
-  const success = await auth.login(email.value,phone.value)
-  if(success){
-    alert('Exito')
-  }else{
-    alert('No exito')
+  const success = await auth.login(email.value, phone.value)
+  if (success) {
+    toaster.show('Has ingresado con éxito', { 
+      duration:1000,
+      type: "success",
+      position: "top",
+      maxToasts: 1,
+
+    });
+        setTimeout(() => {
+            router.push('/user-home')
+        }, 1000)
+  } else {
+    toaster.show('Tus datos son incorrectos o no estás registrado aún', { 
+      duration:1000,
+      type: "error",
+      position: "top",
+      maxToasts: 1,
+
+    });
   }
 }
 
@@ -96,7 +116,7 @@ export default {
 </script>
 
 <style scoped>
-body{
+body {
   background: url('../../../../assets/background.jpg');
   background-size: cover;
   height: 100vh;
@@ -119,13 +139,14 @@ a:hover {
   color: whitesmoke;
 }
 
-.images{
+.images {
   position: relative;
   left: 40%;
   top: 0px;
 }
+
 .user-img {
-  
+
   width: 80px;
   height: 80px;
 }
@@ -149,7 +170,7 @@ a:hover {
 }
 
 .btn-ingresar:hover {
-  background-color: rgb(49, 49, 49);
+  background-color: rgb(22, 22, 22);
 }
 
 .link-to-register {
@@ -172,7 +193,7 @@ a:hover {
   text-align: center;
 }
 
-.form-signin {  
+.form-signin {
 
   width: 100%;
   max-width: 330px;

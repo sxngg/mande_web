@@ -7,6 +7,7 @@ import UserRegister from '../app/admin/components/user/UserRegister.vue'
 import WorkerLogin from '../app/admin/components/worker/WorkerLogin.vue'
 import WorkerRegister from '../app/admin/components/worker/WorkerRegister.vue'
 import WorkerHome from '../app/admin/components/worker/WorkerHome.vue'
+import UserHome from '../app/admin/components/user/UserHome.vue'
 
 const routes = [
   {
@@ -25,6 +26,12 @@ const routes = [
     path: '/user-register',
     name: 'user-register',
     component: UserRegister
+  },
+
+  {
+    path: '/user-home',
+    name: 'user-home',
+    component: UserHome
   },
   
   {
