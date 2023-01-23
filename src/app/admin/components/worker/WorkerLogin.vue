@@ -30,7 +30,7 @@ const authWorker = async () => {
 
     });
         setTimeout(() => {
-            router.push('/worker-home')
+            router.push('/worker-job-selector')
         }, 1000)
   } else {
     toaster.show('Tus datos son incorrectos o no estás registrado aún', { 
