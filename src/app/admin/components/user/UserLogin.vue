@@ -62,15 +62,24 @@
 import { useRouter } from "vue-router";
 import { createToaster } from "@meforma/vue-toaster";
 import { ref } from 'vue'
-import AuthService from '../../../../services/AuthService.js'
+import AuthService from '../../../../services/AuthServiceUser.js'
 let email = ref("")
 let phone = ref("")
 const router = useRouter();
 const toaster = createToaster({ });
 
+const userPrimaryKey = ()=>{
+  return {
+    email : email.value,
+    phone : phone.value
+  }
+}
+
 const authUser = async () => {
   console.log(email.value)
   console.log(phone.value)
+  console.log(userPrimaryKey().email);
+
   const auth = new AuthService()
   const success = await auth.login(email.value, phone.value)
   if (success) {

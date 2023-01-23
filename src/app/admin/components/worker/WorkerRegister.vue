@@ -1,13 +1,66 @@
-<script setup>
+<script>
+import { registerWorker } from '../../../../services/worker-service.js'
+import { createToaster } from "@meforma/vue-toaster";
+/**
 import {ref} from 'vue'
 const checkedWorks = ref([]);
+ */
+ const toaster = createToaster({ });
+ export default {
+  name: "worker-register",
+  data() {
+    return {
+      worker: {
+        worker_name: null,
+        worker_last_name: null,
+        email: null,
+        phone_number: null,
+        profile_image: null,
+        identification_image: null,
+        address: null,
+        stars: 0,
+        available: true,
+        is_active: true,
+      }
+    }
+  },
+  computed: {
+    formIsValid() {
+      return this.email && this.worker_name;
+    },
+  },
+  methods: {
+    async onStore() {
+      console.log(this.worker)
+      const data = await registerWorker(this.worker);
+      console.log(data);
+
+      toaster.show('Te has registrado con éxito', { 
+      duration:1000,
+      type: "success",
+      position: "top",
+      maxToasts: 1,
+
+    });
+        setTimeout(() => {
+          this.$router.push('/worker-login');
+        }, 1000)
+
+      
+    },
+    handleFileChange(e) {
+      this.worker.profile_image = e.target.files[0];
+      this.worker.identification_image = e.target.files[0];
+    },
+  },
+}
 </script>
 
 <template>
 
   <body class="text-center body-uslog">
     <div class="main-container">
-      <form class="form-signin">
+      <form @submit.prevent="onStore" class="form-signin">
         <div class="images">
           <img class="worker-img" src="../../../../assets/workers.png">
         </div>
@@ -17,13 +70,13 @@ const checkedWorks = ref([]);
           <div class="row">
             <div class="col-md-6 mb-4">
               <div class="form-outline">
-                <input type="text" id="form3Example1m" class="form-control form-control-lg" />
+                <input type="text" id="form3Example1m" v-model="worker.worker_name" class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example1m">Nombre</label>
               </div>
             </div>
             <div class="col-md-6 mb-4">
               <div class="form-outline">
-                <input type="text" id="form3Example1n" class="form-control form-control-lg" />
+                <input type="text" id="form3Example1n" v-model="worker.worker_last_name" class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example1n">Apellido</label>
               </div>
             </div>
@@ -32,38 +85,36 @@ const checkedWorks = ref([]);
           <div class="row">
             <div class="col-md-6 mb-4">
               <div class="form-outline mb-4">
-                <input type="email" id="form3Example8" class="form-control form-control-lg" />
+                <input type="email" id="form3Example8" v-model="worker.email" class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example8">Email</label>
               </div>
             </div>
 
             <div class="col-md-6 mb-4">
               <div class="form-outline mb-4">
-                <input type="text" id="form3Example8" class="form-control form-control-lg" />
+                <input type="text" id="form3Example8" v-model="worker.phone_number" class="form-control form-control-lg" />
                 <label class="form-label" for="form3Example8">Telefono</label>
               </div>
             </div>
           </div>
           <div class="form-outline mb-4">
-            <input type="text" id="form3Example97" class="form-control form-control-lg" />
+            <input type="text" id="form3Example97" v-model="worker.address" class="form-control form-control-lg" />
             <label class="form-label" for="form3Example97">Dirección de residencia</label>
           </div>
 
           <div class="form-outline">
-            <label for="formFileSm" class="form-label">Imagen de perfil</label>
-            <input class="form-control form-control-sm" id="formFileSm" type="file" />
+            <input class="form-control  form-control-sm" id="formFileSm" type="file" @change="handleFileChange" />
+            <label v-if="worker.profile_image" for="formFileSm" class="form-label"></label>
+            <label>Imagen de perfil</label>
           </div>
 
-          <div class="form-outline mb-4">
-            <label for="formFileSm" class="form-label">Imagen de tu documento</label>
-            <input class="form-control form-control-sm" id="formFileSm" type="file" />
+          <div class="form-outline">
+            <input class="form-control  form-control-sm" id="formFileSm" type="file" @change="handleFileChange" />
+            <label v-if="worker.identification_image" for="formFileSm" class="form-label"></label>
+            <label>Imagen de identificación</label>
           </div>
 
-          <div class="form-outline mb-4">
-            <label for="formFileSm" class="form-label">Recibo público</label>
-            <input class="form-control form-control-sm" id="formFileSm" type="file" />
-          </div>
-
+          <!--
           <div class="works-list">
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="checkbox" id="option1" value="medico" v-model="checkedWorks">
@@ -73,7 +124,7 @@ const checkedWorks = ref([]);
               <input class="form-check-input" type="checkbox" id="option2" value="estilista" v-model="checkedWorks">
               <label class="form-check-label" for="option2">Estilista</label>
             </div>
-            <span>checkedNames: {{ checkedWorks }}</span>
+            <span>checkedNames: {{ checkedWorks }}</span> -->
 
             <!--
             <div class="form-check form-check-inline">
@@ -96,12 +147,14 @@ const checkedWorks = ref([]);
               <input class="form-check-input" type="checkbox" id="option7" value="option7">
               <label class="form-check-label" for="option7">Programador</label>
             </div>-->
-          </div>
+          
 
         </div>
 
         <div class="btn-container">
-          <button class="btn btn-lg btn-primary btn-block btn-ingresar" type="submit">Registrarse</button>
+          <button class="btn btn-lg btn-primary btn-block btn-ingresar"
+            :disabled="!worker.worker_name || !worker.worker_last_name || !worker.email || !worker.identification_image || !worker.phone_number || !worker.address || !worker.profile_image"
+            type="submit">Registrarse</button>
         </div>
         <div class="link-to-register mb-3">
           <p> ¿Ya tienes una cuenta?

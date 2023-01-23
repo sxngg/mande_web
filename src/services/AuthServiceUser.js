@@ -12,7 +12,7 @@ class AuthService {
 
     async login(em, pho) {
         try {
-            const res = await fetch('http://localhost:3000/mande/auth/autenticado', {
+            const res = await fetch('http://localhost:3000/mande/auth/user', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

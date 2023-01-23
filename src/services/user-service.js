@@ -6,8 +6,8 @@ export const getUser = async() => {
     return cli.data;
 }
 
-export const registerUser = async(user)=>{
-    const {data} = await httpClient.post('http://localhost:3000/mande/user/add',{user});
+export const registerUser = async(userA)=>{
+    const {data} = await httpClient.post('http://localhost:3000/mande/user/add',userA);
     console.log(data);
     return data;
     

@@ -1,6 +1,7 @@
 <script>
 import { registerUser } from '../../../../services/user-service.js';
 import { createToaster } from "@meforma/vue-toaster";
+import { userPrimaryKey } from './UserLogin.vue'
 const toaster = createToaster({ });
 export default {
   name: "user-register",
@@ -13,7 +14,8 @@ export default {
         phone_number: null,
         address: null,
         payment_method: null,
-        public_services: null
+        public_services: null,
+        is_active: true,
       }
     }
   },
