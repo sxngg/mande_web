@@ -9,7 +9,7 @@ export default {
 
     <body class="body-home">
 
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
             
             <main role="main" class="inner cover container-main">
                 <h1 class="cover-heading">CONECTA AHORA</h1>
@@ -35,12 +35,13 @@ export default {
                 
             </main>
             
-            <footer class="mastfoot mt-auto">
+            
+        </div>
+        <footer class="mastfoot mt-auto">
                 <div class="inner">
                     <p> Proyecto universitario <br> <b>Universidad del Valle</b></p>
                 </div>
             </footer>
-        </div>
     </body>
 </template>
 
@@ -136,7 +137,8 @@ body{
 }
 
 .cover-container {
-    min-height: calc(100vh - footer-height);
+    min-height: calc(100vh - 50px);
+    
 }
 
 
@@ -196,10 +198,14 @@ body{
     font-weight: 700;
 }
 
-
 /*
  * Footer
  */
+
+ footer{
+    padding-top: 10px;
+    height: 50px;
+ }
 .mastfoot {
     margin-top: 20px;
     display: flex;

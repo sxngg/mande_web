@@ -3,21 +3,23 @@ import { useRouter } from "vue-router";
 import { createToaster } from "@meforma/vue-toaster";
 import { ref } from 'vue'
 import AuthServiceWorker from '../../../../services/AuthServiceWorker.js'
+import WorkerJobSelector from "./WorkerJobSelector.vue";
+
 let email = ref("")
 let phone = ref("")
 const router = useRouter();
 const toaster = createToaster({ });
+let showChild = false;
 
-const workerPrimaryKey = ()=>{
-  return {
-    email : email.value,
-    phone : phone.value
-  }
+const worker = {
+    email : "dasdad",
+    phone : "213131",
 } 
+
+
 const authWorker = async () => {
   console.log(email.value)
   console.log(phone.value)
-  console.log(workerPrimaryKey().email);
 
   const auth = new AuthServiceWorker()
   const success = await auth.login(email.value, phone.value)
@@ -54,6 +56,7 @@ const authWorker = async () => {
         </div>  
         <h1 class="h1 mb-3 font-weight-normal">BIENVENIDO</h1>
         <h3 class="h3 mb-3 font-weight-normal"> INGRESA COMO <b>TRABAJADOR</b></h3>
+        <WorkerJobSelector v-if="showChild" :worker="worker"></WorkerJobSelector>
         <div class="container-email">
           <label for="inputEmail" class="sr-only email-input">Email</label>
           <input type="email" id="inputEmail" v-model="email" class="form-control" placeholder="Email" required autofocus>
