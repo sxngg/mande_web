@@ -1,64 +1,36 @@
-<script>
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { createToaster } from "@meforma/vue-toaster";
+import useWorkerState from "../../composables/useWorkerState";
 import AuthServiceWorker from "../../../../services/AuthServiceWorker.js";
-import WorkerJobSelector from "./WorkerJobSelector.vue";
-
 
 const toaster = createToaster({});
-let email;
-let phone;
+const $router = useRouter();
+const { worker } = useWorkerState();
 
-const worker = {
-  email: '',
-  phone: ''
-}
-
-export default {
-  components: {
-    WorkerJobSelector,
-  },
-  data() {
-    return {
-      toaster,
-      email,
-      phone,
-      worker,
-      stateChild: false
-    };
-  },
-  methods: {
-    async authWorker() {
-      console.log(worker.email);
-      console.log(worker.phone);
-
-      const auth = new AuthServiceWorker();
-      const success = await auth.login(worker.email,worker.phone);
-      if (success) {
-        toaster.show("Has ingresado con éxito", {
-          duration: 1000,
-          type: "success",
-          position: "top",
-          maxToasts: 1,
-        });
-        setTimeout(() => {
-          this.$router.push("/worker-job-selector");
-        }, 1000);
-      } else {
-        toaster.show("Tus datos son incorrectos o no estás registrado aún", {
-          duration: 1000,
-          type: "error",
-          position: "top",
-          maxToasts: 1,
-        });
-      }
-    }
-  },
-  computed: {
-    showChild() {
-        return this.stateChild;
-    }
-},
-
+const stateChild = ref(false);
+const authWorker = async () => {
+  const auth = new AuthServiceWorker();
+  const success = await auth.login(worker.value.email, worker.value.phone);
+  if (success) {
+    toaster.show("Has ingresado con éxito", {
+      duration: 1000,
+      type: "success",
+      position: "top",
+      maxToasts: 1,
+    });
+    setTimeout(() => {
+      $router.push("/worker-job-selector");
+    }, 1000);
+  } else {
+    toaster.show("Tus datos son incorrectos o no estás registrado aún", {
+      duration: 1000,
+      type: "error",
+      position: "top",
+      maxToasts: 1,
+    });
+  }
 };
 
 /**let email = ref("")
@@ -68,16 +40,12 @@ let showChild = false;
 const worker = ref({
     email : 'asas',
     phone : '21212',
-}) 
+})
  <WorkerJobSelector v-show="showChild" :worker="worker"></WorkerJobSelector> */
-
 </script>
-
-
 
 <template>
   <h1>PADRE {{ worker.email }}</h1>
-   <WorkerJobSelector v-if="showChild" :worker="worker.email"/>
   <body class="text-center body-uslog">
     <div class="main-container">
       <form class="form-signin">
@@ -142,8 +110,6 @@ const worker = ref({
     </div>
   </body>
 </template>
-
-
 
 <style scoped>
 body {
