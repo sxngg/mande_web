@@ -1,4 +1,5 @@
 <template>
+
   <body>
     <div class="card shadow border-0 mb-5">
       <h1>email: {{ worker.email }} contraseña: {{ worker.phone }}</h1>
@@ -8,45 +9,24 @@
           Escoge que servicios puedes ofrecer en nuestra página
         </p>
         <ul class="list-group">
-          <li
-            class="
+          <li class="
               list-group-item
               rounded-0
               align-items-center
               justify-content-between
-            "
-          >
-            <div
-              class="col-md-6 mb-4 custom-control custom-radio"
-              v-for="(work, index) in works"
-              :key="work.work_id"
-            >
+            ">
+            <div class="col-md-6 mb-4 custom-control custom-radio" v-for="(work, index) in works" :key="work.work_id" >
               <div class="d-flex">
-                <input
-                  type="checkbox"
-                  v-bind:value="work.work_id"
-                  class="btn-check custom-control-input"
-                  :id="`btn-check-${work.work_id}-${index}`"
-                  autocomplete="off"
-                  @change="checkedWork(work)"
-                />
-                <label
-                  class="btn btn-primary custom-control-label btn-trabajo"
-                  :for="`btn-check-${work.work_id}-${index}`"
-                  >{{ work.work_name }}</label
-                >
+                <input type="checkbox" v-bind:value="work.work_id" class="btn-check custom-control-input"
+                  :id="`btn-check-${work.work_id}-${index}`" autocomplete="off" @change="checkedWork(work)"/>
+                <label class="btn btn-primary custom-control-label btn-trabajo"
+                  :for="`btn-check-${work.work_id}-${index}`" >{{ work.work_name }} 
+                </label>
+
                 <div class="additional-input" v-show="work.is_active">
-                  <input
-                    class="form-control-sm .form-control-plaintext"
-                    type="number"
-                    v-model="priceForHour"
-                    placeholder="Costo por hora (COP)"
-                  />
-                  <button
-                    class="btn btn-agregar"
-                    :disabled="!priceForHour"
-                    type="submit"
-                  >
+                  <input class="form-control-sm .form-control-plaintext" type="number" v-model="priceForHour"
+                    placeholder="Costo por hora (COP)" />
+                  <button class="btn btn-agregar" :disabled="!priceForHour" type="submit" @click="sendWork(work)">
                     Agregar
                   </button>
                 </div>
@@ -66,27 +46,45 @@
 import { onMounted } from "vue";
 import { getAllJobs } from "../../../../services/jobs-service.js";
 import useWorkerState from "../../composables/useWorkerState";
-import {ref} from 'vue'
+import { ref } from "vue";
+import { addJobOffered } from "../../../../services/job-offered-service.js";
+import { createToaster } from "@meforma/vue-toaster";
+
+const toaster = createToaster({});
 const { worker } = useWorkerState();
 /**
  * Arrays
  */
 let works = ref([]);
+const showJob = ref(true);
 /**
  * Number
  */
-const priceForHour = null;
+const priceForHour = ref();
+
+/**
+ * variable reactiva de jobOffered (que mandaremos al back)
+ */
+
+const jobOffered = ref({
+  job_offered_id: 1,
+  worker_email: worker.value.email,
+  worker_phone_number: worker.value.phone,
+  work_id: ref(1),
+});
+
 /**
  * Functions
  */
 
- onMounted(async () => {
+onMounted(async () => {
   const data = await getAllJobs();
   works.value = data;
 });
 
 const checkedWork = (work) => {
-  console.log("seleccionado", work);
+  jobOffered.value.work_id = work.work_id;
+  console.log("seleccionado", work, "workid", jobOffered.value.work_id);
   changeIsActive(work);
 };
 const changeIsActive = (work) => {
@@ -97,6 +95,17 @@ const changeIsActive = (work) => {
     console.log("estaba en false");
     work.is_active = true;
   }
+};
+
+const sendWork = (work) => {
+  addJobOffered(jobOffered.value);
+  work.is_active = false;
+  toaster.show("Trabajo agregado con exito", {
+      duration: 1000,
+      type: "success",
+      position: "top",
+      maxToasts: 1,
+    });
 };
 </script>
 

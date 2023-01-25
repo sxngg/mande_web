@@ -1,10 +1,14 @@
-<script></script>
+<script setup>
+import useWorkerState from "../../composables/useWorkerState";
+const { worker } = useWorkerState();
+</script>
 
 <template>
     <body>
       <div class="main-container">
         <div class="text">
           <h1>PROFILE WORKER</h1>
+          <h2> worker email{{ worker.email }}</h2>
         </div>
         
         <div class="imagen">
