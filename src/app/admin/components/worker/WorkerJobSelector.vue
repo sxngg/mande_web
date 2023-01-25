@@ -7,7 +7,7 @@ let priceForHour;
 export default {
   name: "worker-job-selector",
   props: {
-    worker: {
+    worker : {
       type: Object,
       required: true
     }
@@ -54,6 +54,7 @@ export default {
   <body>
     <div class="card shadow border-0 mb-5">
       <div class="card-body p-5 ">
+        <h1>Hola {{ worker }}</h1>
         <button @click="handleSubmit">MOSTRAR EMAIL</button>
         <h2 class="h4 mb-1 text-center">TRABAJOS QUE PUEDES OFRECER </h2>
         <p class="small text-muted font-italic mb-4 text-center">Escoge que servicios puedes ofrecer en nuestra página
