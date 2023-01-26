@@ -27,12 +27,12 @@
         <h3 class="h3 mb-3 font-weight-normal"> INGRESA COMO <b>USUARIO</b></h3>
         <div class="container-email">
           <label for="inputEmail" class="sr-only email-input">Email</label>
-          <input type="email" v-model="email" id="inputEmail" class="form-control" placeholder="Email" required
+          <input type="email" v-model="user.email" id="inputEmail" class="form-control" placeholder="Email" required
             autofocus>
         </div>
         <div class="container-phone">
           <label for="inputPhone" class="sr-only">Telefono</label>
-          <input type="password" v-model="phone" id="inputPhone" class="form-control" placeholder="Telefono" required>
+          <input type="password" v-model="user.phone" id="inputPhone" class="form-control" placeholder="Telefono" required>
         </div>
         <div class="btn-container">
           <button class="btn btn-lg btn-primary btn-block btn-ingresar" @click.prevent="authUser"
@@ -63,25 +63,20 @@ import { useRouter } from "vue-router";
 import { createToaster } from "@meforma/vue-toaster";
 import { ref } from 'vue'
 import AuthService from '../../../../services/AuthServiceUser.js'
+import useUserState from '../../composables/useUserState.js'
+
 let email = ref("")
 let phone = ref("")
+const {user} = useUserState();
 const router = useRouter();
 const toaster = createToaster({ });
 
-const userPrimaryKey = ()=>{
-  return {
-    email : email.value,
-    phone : phone.value
-  }
-}
-
 const authUser = async () => {
-  console.log(email.value)
-  console.log(phone.value)
-  console.log(userPrimaryKey().email);
+  console.log(user.value.email);
+  console.log(user.value.phone);
 
   const auth = new AuthService()
-  const success = await auth.login(email.value, phone.value)
+  const success = await auth.login(user.value.email, user.value.phone)
   if (success) {
     toaster.show('Has ingresado con éxito', { 
       duration:1000,

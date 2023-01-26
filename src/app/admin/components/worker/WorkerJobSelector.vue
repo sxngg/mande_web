@@ -15,12 +15,12 @@
               align-items-center
               justify-content-between
             ">
-            <div class="col-md-6 mb-4 custom-control custom-radio" v-for="(work, index) in works" :key="work.work_id" >
+            <div class="col-md-6 mb-4 custom-control custom-radio" v-for="(work, index) in works" :key="work.work_id">
               <div class="d-flex">
                 <input type="checkbox" v-bind:value="work.work_id" class="btn-check custom-control-input"
-                  :id="`btn-check-${work.work_id}-${index}`" autocomplete="off" @change="checkedWork(work)"/>
+                  :id="`btn-check-${work.work_id}-${index}`" autocomplete="off" @change="checkedWork(work)" />
                 <label class="btn btn-primary custom-control-label btn-trabajo"
-                  :for="`btn-check-${work.work_id}-${index}`" >{{ work.work_name }}  
+                  :for="`btn-check-${work.work_id}-${index}`">{{ work.work_name }}
                 </label>
 
                 <div class="additional-input" v-show="work.is_active">
@@ -38,7 +38,9 @@
           </li>
         </ul>
       </div>
+      <button class="btn btn-primary" @click="goToHomeWork"> Listo </button>
     </div>
+
   </body>
 </template>
 
@@ -49,9 +51,11 @@ import useWorkerState from "../../composables/useWorkerState";
 import { ref } from "vue";
 import { addJobOffered } from "../../../../services/job-offered-service.js";
 import { createToaster } from "@meforma/vue-toaster";
+import { useRouter } from "vue-router";
 
 const toaster = createToaster({});
 const { worker } = useWorkerState();
+const $router = useRouter();
 /**
  * Arrays
  */
@@ -103,12 +107,25 @@ const sendWork = (work) => {
   addJobOffered(jobOffered.value);
   work.is_active = false;
   toaster.show("Trabajo agregado con exito", {
-      duration: 1000,
-      type: "success",
-      position: "top",
-      maxToasts: 1,
-    });
+    duration: 1000,
+    type: "success",
+    position: "top",
+    maxToasts: 1,
+  });
 };
+
+const goToHomeWork = () => {
+  console.log('ya')
+  toaster.show("Trabajos registrados", {
+    duration: 1000,
+    type: "success",
+    position: "top",
+    maxToasts: 1,
+  });
+  setTimeout(() => {
+    $router.push("/worker-home");
+  }, 1000);
+}
 </script>
 
 <style scoped>
