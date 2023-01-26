@@ -20,7 +20,7 @@
                 <input type="checkbox" v-bind:value="work.work_id" class="btn-check custom-control-input"
                   :id="`btn-check-${work.work_id}-${index}`" autocomplete="off" @change="checkedWork(work)"/>
                 <label class="btn btn-primary custom-control-label btn-trabajo"
-                  :for="`btn-check-${work.work_id}-${index}`" >{{ work.work_name }} 
+                  :for="`btn-check-${work.work_id}-${index}`" >{{ work.work_name }}  
                 </label>
 
                 <div class="additional-input" v-show="work.is_active">
@@ -67,9 +67,10 @@ const priceForHour = ref();
  */
 
 const jobOffered = ref({
-  job_offered_id: 1,
+  job_offered_id: 20,
   worker_email: worker.value.email,
   worker_phone_number: worker.value.phone,
+  cost_per_service: priceForHour,
   work_id: ref(1),
 });
 
@@ -87,6 +88,7 @@ const checkedWork = (work) => {
   console.log("seleccionado", work, "workid", jobOffered.value.work_id);
   changeIsActive(work);
 };
+
 const changeIsActive = (work) => {
   if (work.is_active) {
     console.log("estaba en true");
