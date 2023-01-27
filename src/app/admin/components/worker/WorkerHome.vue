@@ -1,20 +1,51 @@
 <script setup>
 import useWorkerState from "../../composables/useWorkerState";
-import {ref} from 'vue';
+import { ref } from 'vue';
 import { onMounted } from "vue";
-import { getJobOfferedByWorkId } from "../../../../services/job-offered-service.js";
 import useServiceState from "../../composables/useServiceState";
+import { getJobOfferedByWorker } from '../../../../services/job-offered-service.js';
+import {getServiceByJobOfferedId} from '../../../../services/service-service.js';
 
-const {service} = useServiceState();
+const { service } = useServiceState();
 const { worker } = useWorkerState();
 let selectedWorkName = ref([]);
+const serviceAssigned = ref([]);
 const jobAssigned = ref([]);
+const loaded = ref(false);
+
+const workerBack = {
+    email: worker.value.email,
+    phone: worker.value.phone
+}
 
 onMounted(async () => {
-    const data = await getJobOfferedByWorkId(2);
-    jobAssigned.value = data;
-    selectedWorkName = jobAssigned.value[1].work_id;  
+  const data = await getJobOfferedByWorker(workerBack);
+  jobAssigned.value = data;
+  console.log(jobAssigned.value);
 });
+
+/** 
+ * Me obtiene por medio del work_id (que le daré en el v-for en el template) el work_name y ya veremos que más sirve sacar)
+*/
+const getWorkName = async (work_id) => {
+  /**const data = await getWorkbyWorkId(work_id);
+  selectedWorkName.value = data;
+  selectedWorkName = work.work_name; */
+};
+
+/**
+ * 
+ * @param {*} job_offered_id 
+ * Obtiene todo un servicio asociado a un jobOfferedId, incluído el user_email
+ */
+const getService = async (job) =>{
+  console.log(`ID: ${job.job_offered_id}`)
+  const dataService = await getServiceByJobOfferedId(job.job_offered_id);
+  serviceAssigned.value = dataService;
+  console.log("se ejectuo service", serviceAssigned.value);
+  loaded.value = true;
+}
+
 
 </script>
 
@@ -31,26 +62,36 @@ onMounted(async () => {
         <img class="worker-profile" src="">
       </div>
 
-      
-      <div class="card-body p-5 d-flex">
-      <div class="form-check mb-3" v-for="(job, index) in jobAssigned" :key="job.job_offered_id">
-        <div class="container">
-          <div class="card" style="width: 250px">
-            <img class="card-img-top worker-img" src="../../../../assets/workers.png" alt="Card image" />
 
-            <div class="card-body text-center">
-              <h4 class="card-title small">{{ selectedWorkName }} {{ service.user_email }}</h4>
-              <p class="card-text small mb-1">
-               Te han contratado en el oficio de: {{  }}
-              </p>
-              <p class="small mb-1">Contacto: <b>{{ }}</b></p>
-              <button class="btn btn-primary" >
-                Terminado
-              </button>
+      <div class="card-body p-5 d-flex">
+        <div class="form-check mb-3" v-for="(jobAssigned, index) in jobAssigned" :key="jobAssigned.job_offered_id"
+        v-on="getService(jobAssigned)">
+          <div v-if="!loaded" class="container">
+            <div class="card" style="width: 250px">
+              <img class="card-img-top worker-img" src="../../../../assets/workers.png" alt="Card image" />
+
+              <div class="card-body text-center">
+                <h4 class="card-title small">NUEVO TRABAJO ASIGNADO</h4>
+                <p class="card-text small mb-1">
+                  Te ha contratado en el oficio de: {{}}
+                </p>
+                <p class="card-text small mb-1">
+                  La fecha de inicio es: {{}} 
+                </p>
+                <p class="card-text small mb-1">
+                  La fecha limite es: {{}} 
+                </p>
+                <p class="card-text small mb-1">
+                  Tu servicio tendrá un valor de: {{}} 
+                </p>
+                <p class="small mb-1">Contacto:  <b>{{serviceAssigned.user_email}}</b></p>
+                <button class="btn btn-primary">
+                  Terminado
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
 
 
@@ -96,17 +137,18 @@ body {
 }
 
 .worker-img {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
+
 .card {
-    margin: 20px;
-    display: flex;
-    --bs-card-bg: rgba(238, 237, 237, 0.8);
-    justify-content: center;
-    align-items: center;
-    width: 700px;
-    border: 1px solid red;
+  margin: 20px;
+  display: flex;
+  --bs-card-bg: rgba(238, 237, 237, 0.8);
+  justify-content: center;
+  align-items: center;
+  width: 700px;
+  border: 1px solid red;
 }
 
 .text {

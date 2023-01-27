@@ -6,6 +6,14 @@ export const getJobOfferedByWorkId = async(work_id)=>{
     return data;
 }
 
+
+export const getJobOfferedByWorker = async(workerBack)=>{
+    console.log(workerBack);
+    const {data} = await httpClient.get(`http://localhost:3000/mande/jobs/worker/${workerBack.email}/${workerBack.phone}`);
+    console.log(data);
+    return data;    
+}
+
 export const addJobOffered = async(job)=>{
     const {data} = await httpClient.post('http://localhost:3000/mande/jobs/add',job);
     console.log(data);
