@@ -10,5 +10,12 @@ export const addJobOffered = async(job)=>{
     const {data} = await httpClient.post('http://localhost:3000/mande/jobs/add',job);
     console.log(data);
     return data;
-    
+
+}
+
+
+export const bussyJobOffered = async(job_offered_id)=>{
+    const {data} = await httpClient.put(`http://localhost:3000/mande/jobs/delete/${job_offered_id}`);
+    console.log(data);
+    return data;
 }

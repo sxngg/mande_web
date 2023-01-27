@@ -7,8 +7,11 @@ const service = ref({
     user_email: "",
     user_phone: "",
     cost: "",
-    dateBegin: "",
-    dateEnd: "",
+    service_stars: ref(0),
+    date_begin: "",
+    date_end: "",
+    paid: false,
+    status: false
 });
 
 const useServiceState = () => {

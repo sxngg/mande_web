@@ -5,6 +5,9 @@ import { onMounted } from "vue";
 import { getJobOfferedByWorkId } from "../../../../services/job-offered-service.js";
 import useUserState from "../../composables/useUserState.js";
 import useServiceState from "../../composables/useServiceState";
+import {addService} from '../../../../services/service-service.js'
+import {bussyWorker} from '../../../../services/worker-service.js'
+import {bussyJobOffered} from "../../../../services/job-offered-service.js";
 
 let works = ref([]);
 let jobsOffered = ref([]);
@@ -19,6 +22,11 @@ onMounted(async () => {
     const data = await getAllJobs();
     works.value = data;
 });
+
+const worker = {
+    email: "",
+    phone_number: ""
+}
 
 /** 
 const service = ref({
@@ -40,14 +48,24 @@ const showJobsByWorkId = async (work) => {
 const signJobOffered = (job, unts, dateBegin, dateEnd) => {
     service.value.job_offered_id = job.job_offered_id;
     console.log("JOB_OFFERED_ID", service.value.job_offered_id);
-    service.value.dateBegin = dateBegin;
-    service.value.dateEnd = dateEnd;
-    console.log("inicio", service.value.dateBegin, "fin", service.value.dateEnd);
+    service.value.date_begin = dateBegin;
+    service.value.date_end = dateEnd;
+    console.log("inicio", service.value.date_begin, "fin", service.value.date_end);
     service.value.cost = unts * job.cost_per_service;
     console.log(service.value.cost, job.worker_email);
     service.value.user_email = user.value.email;
     service.value.user_phone = user.value.phone;
     console.log(service.value.user_email, service.value.user_phone);
+    console.log(service.value.service_stars);
+    console.log(service.value.paid);
+    console.log(service.value.status);
+    addService(service.value);
+    worker.email = job.worker_email;
+    worker.phone_number = job.worker_phone_number;
+    console.log(worker.email,worker.phone_number);
+    console.log(worker);
+    bussyWorker(worker);
+    bussyJobOffered(service.value.job_offered_id);
 };
 </script>
 <template>
@@ -158,15 +176,6 @@ const signJobOffered = (job, unts, dateBegin, dateEnd) => {
                 </div>
             </div>
         </div>
-        <div>
-            SERVICE ID{{ service.service_id }}
-            JOBID{{ service.job_offered_id }}
-            EMAIL{{ service.user_email }}
-            PHONE{{ service.user_phone }}
-            COSTO{{ service.cost }}
-            INICIO{{ service.dateBegin }}
-            FINAL{{ service.dateEnd }}
-        </div>
     </body>
 </template>
 
@@ -239,6 +248,5 @@ body {
     justify-content: center;
     align-items: center;
     width: 700px;
-    border: 1px solid red;
 }
 </style>
