@@ -5,9 +5,9 @@ import { onMounted } from "vue";
 import { getJobOfferedByWorkId } from "../../../../services/job-offered-service.js";
 import useUserState from "../../composables/useUserState.js";
 import useServiceState from "../../composables/useServiceState";
-import {addService} from '../../../../services/service-service.js'
-import {bussyWorker} from '../../../../services/worker-service.js'
-import {bussyJobOffered} from "../../../../services/job-offered-service.js";
+import { addService } from '../../../../services/service-service.js'
+import { bussyWorker } from '../../../../services/worker-service.js'
+import { bussyJobOffered } from "../../../../services/job-offered-service.js";
 
 let works = ref([]);
 let jobsOffered = ref([]);
@@ -16,7 +16,7 @@ let units = ref([]);
 let dateBegin = ref([]);
 let dateEnd = ref([]);
 const { user } = useUserState();
-const {service} = useServiceState();
+const { service } = useServiceState();
 
 onMounted(async () => {
     const data = await getAllJobs();
@@ -47,23 +47,15 @@ const showJobsByWorkId = async (work) => {
 
 const signJobOffered = (job, unts, dateBegin, dateEnd) => {
     service.value.job_offered_id = job.job_offered_id;
-    console.log("JOB_OFFERED_ID", service.value.job_offered_id);
-    service.value.date_begin = dateBegin;
-    service.value.date_end = dateEnd;
+    service.value.date_begin = dateBegin.substring(0, 10);
+    service.value.date_end = dateEnd.substring(0, 10);
     console.log("inicio", service.value.date_begin, "fin", service.value.date_end);
     service.value.cost = unts * job.cost_per_service;
-    console.log(service.value.cost, job.worker_email);
     service.value.user_email = user.value.email;
     service.value.user_phone = user.value.phone;
-    console.log(service.value.user_email, service.value.user_phone);
-    console.log(service.value.service_stars);
-    console.log(service.value.paid);
-    console.log(service.value.status);
     addService(service.value);
     worker.email = job.worker_email;
     worker.phone_number = job.worker_phone_number;
-    console.log(worker.email,worker.phone_number);
-    console.log(worker);
     bussyWorker(worker);
     bussyJobOffered(service.value.job_offered_id);
 };
@@ -237,7 +229,7 @@ body {
     padding-right: 15px;
 }
 
-.date-text{
+.date-text {
     font-size: 12px;
 }
 

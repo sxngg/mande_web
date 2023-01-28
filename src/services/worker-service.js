@@ -6,14 +6,22 @@ export const getWorker = async() => {
     return cli.data;
 }
 
+export const getWorkerByEmailAndPhone = async(worker) => {
+    const cli = await httpClient.get(`http://localhost:3000/mande/worker/byKey/${worker.email}/${worker.phone_number}`);
+    return cli.data;
+}
+
+export const updateIsActiveWorker = async(worker) =>{
+    const {data} = await httpClient.put(`http://localhost:3000/mande/worker/${worker.email}/${worker.email}/true`);
+    return data;
+}
+
 export const registerWorker = async(worker)=>{
     const {data} = await httpClient.post('http://localhost:3000/mande/worker/add',worker);
-    console.log(data);
     return data;
 }
 
 export const bussyWorker = async(worker)=>{
     const {data} = await httpClient.put('http://localhost:3000/mande/worker/delete',worker);
-    console.log(data);
     return data;
 }
