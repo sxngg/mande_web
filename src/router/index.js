@@ -9,6 +9,7 @@ import WorkerRegister from '../app/admin/components/worker/WorkerRegister.vue'
 import WorkerHome from '../app/admin/components/worker/WorkerHome.vue'
 import UserHome from '../app/admin/components/user/UserHome.vue'
 import WorkerJobSelector from '../app/admin/components/worker/WorkerJobSelector.vue'
+import UserAllServices from '../app/admin/components/user/UserAllServices.vue'
 
 
 const routes = [
@@ -34,6 +35,13 @@ const routes = [
     path: '/user-home',
     name: 'user-home',
     component: UserHome
+  },
+
+  {
+    path: '/user-all-services',
+    name: 'user-all-services',
+    component: UserAllServices
+
   },
   
   {

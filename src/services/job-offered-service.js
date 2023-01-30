@@ -5,10 +5,20 @@ export const getJobOfferedByWorkId = async(work_id)=>{
     return data;
 }
 
+export const getJobOfferedByJobOfferedId = async(job_offered_id)=>{
+    const {data} = await httpClient.get(`http://localhost:3000/mande/jobs/byJobOfferedId/${job_offered_id}`);
+    return data;
+}
 
-export const getJobOfferedByWorker = async(workerBack)=>{
+
+export const getJobOfferedByWorkerForView = async(workerBack)=>{
     //console.log(workerBack);
     const {data} = await httpClient.get(`http://localhost:3000/mande/jobs/worker/${workerBack.email}/${workerBack.phone_number}`);
+    return data;    
+}
+
+export const getAllJobOfferedByWorker = async(workerBack)=>{
+    const {data} = await httpClient.get(`http://localhost:3000/mande/jobs/allJobOffered/${workerBack.email}/${workerBack.phone_number}`);
     return data;    
 }
 

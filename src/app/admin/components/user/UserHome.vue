@@ -8,7 +8,10 @@ import useServiceState from "../../composables/useServiceState";
 import { addService } from '../../../../services/service-service.js'
 import { bussyWorker } from '../../../../services/worker-service.js'
 import { bussyJobOffered } from "../../../../services/job-offered-service.js";
+import { useRouter } from "vue-router";
+import { createToaster } from "@meforma/vue-toaster";
 
+const toaster = createToaster({});
 let works = ref([]);
 let jobsOffered = ref([]);
 let selectedWorkName = ref([]);
@@ -17,6 +20,8 @@ let dateBegin = ref([]);
 let dateEnd = ref([]);
 const { user } = useUserState();
 const { service } = useServiceState();
+const $router = useRouter();
+
 
 onMounted(async () => {
     const data = await getAllJobs();
@@ -58,11 +63,27 @@ const signJobOffered = (job, unts, dateBegin, dateEnd) => {
     worker.phone_number = job.worker_phone_number;
     bussyWorker(worker);
     bussyJobOffered(service.value.job_offered_id);
+    toaster.show('Has contratado este servicio, mira en "ir a todos mis servicios" para saber el estado del servicio.', { 
+      duration:1000,
+      type: "success",
+      position: "top",
+      maxToasts: 1,
+
+    });
 };
+
+const goToAllServices = () =>{
+    $router.push("/user-all-services");
+}
 </script>
 <template>
 
     <body>
+        
+        <div class="goToPayment d-flex justify-content-end">
+            <button class="btn btn-primary" @click="goToAllServices"> Ir a todos mis servicios</button>
+        </div>
+
         <div class="
         chosee-work-container
         funkyradio
@@ -76,7 +97,7 @@ const signJobOffered = (job, unts, dateBegin, dateEnd) => {
           card-body
           list-group-item-action list-group-item-light
           p-3
-        ">
+        ">      
                 <h1 class="h1 mb-1 text-center">BIENVENIDO</h1>
                 <h4 class="text-uppercase fw-weight-bold mb-0 text-center">
                     Escoge el servicio que estás buscando
@@ -176,7 +197,17 @@ body {
     background: url("../../../../assets/background.jpg");
     background-size: cover;
     height: 100vh;
+    overflow-y: scroll;
 }
+
+/** 
+* Barra lateral donde van todos los servicios a pagar
+*/
+.img-done {
+    width: 20px;
+    height: 20px;
+}
+
 
 /**
 *barra de escoger trabajo que buscas

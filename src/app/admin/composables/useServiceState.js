@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 
 const service = ref({
-    service_id: 1,
+    service_id: 4,
     job_offered_id: ref(1),
     user_email: "",
     user_phone: "",
@@ -11,7 +11,7 @@ const service = ref({
     date_begin: "",
     date_end: "",
     paid: false,
-    status: false
+    done: false
 });
 
 const useServiceState = () => {

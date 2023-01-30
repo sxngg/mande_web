@@ -3,15 +3,18 @@ import useWorkerState from "../../composables/useWorkerState";
 import { ref } from 'vue';
 import { onMounted } from "vue";
 import useServiceState from "../../composables/useServiceState";
-import { getJobOfferedByWorker } from '../../../../services/job-offered-service.js';
+import { getJobOfferedByWorkerForView } from '../../../../services/job-offered-service.js';
 import { getServiceByJobOfferedId } from '../../../../services/service-service.js';
 import { getWorkNameByWorkId } from '../../../../services/work-service.js'
-import {getWorkerByEmailAndPhone} from '../../../../services/worker-service.js'
-import {getAllServicePaid} from '../../../../services/service-service.js'
-import {updateIsActiveWorker} from '../../../../services/worker-service.js'
-import {updateSignedJobOffered} from '../../../../services/job-offered-service.js';
-import {updateDoneService} from '../../../../services/service-service.js';
+import { getWorkerByEmailAndPhone } from '../../../../services/worker-service.js'
+import { getAllServicePaid } from '../../../../services/service-service.js'
+import { updateIsActiveWorker } from '../../../../services/worker-service.js'
+import { updateSignedJobOffered } from '../../../../services/job-offered-service.js';
+import { updateDoneService } from '../../../../services/service-service.js';
+import { getAllJobOfferedByWorker } from '../../../../services/job-offered-service.js';
+import { createToaster } from "@meforma/vue-toaster";
 
+const toaster = createToaster({});
 const { worker } = useWorkerState();
 let selectedWorkName = ref([]);
 const serviceAssigned = ref();
@@ -20,6 +23,8 @@ let jobOfferedIds = ref([]);
 const allService = ref([]);
 let workIds = ref([]);
 const allWorks = ref([]);
+const allJobOfferedIds = ref([]);
+const allJobAssigned = ref();
 
 /**
  * Para traer los servicios ya terminados
@@ -46,22 +51,33 @@ const workerStars = ref();
  * y el work name getWorkName
  */
 onMounted(async () => {
-  const data = await getJobOfferedByWorker(workerBack);
+  const data = await getJobOfferedByWorkerForView(workerBack);
   jobAssigned.value = data;
+  const dataAll = await getAllJobOfferedByWorker(workerBack);
+  allJobAssigned.value = dataAll;
 
   jobAssigned.value.forEach(job => {
     jobOfferedIds.value.push(job.job_offered_id)
     workIds.value.push(job.work_id)
-    
+
   })
+
+  allJobAssigned.value.forEach(job => {
+    allJobOfferedIds.value.push(job.job_offered_id)
+  })
+
+  for (const id of allJobOfferedIds.value) {
+    getServicePaid(id);
+  }
+
   for (const id of jobOfferedIds.value) {
     getService(id);
-    getServiceDone(id);
-    console.log("alldone",allServicePaid.value);
   }
   for (const workId of workIds.value) {
     getWorkName(workId)
   }
+
+
 
   /**
  * Función que retorna el worker por medio del email y phone y lo asignamos a workerFront
@@ -96,10 +112,23 @@ const getService = async (id) => {
 /**
  * Obtiene los servicios asociados a un jobOfferedId que tienen el paid=true osea que el cliente ya pagó y calificó
  */
-const getServiceDone = async (id)=>{
+const getServicePaid = async (id) => {
   const data = await getAllServicePaid(id);
-  servicePaid.value = data;
-  allServicePaid.value.push(servicePaid.value);
+  let contador = 0;
+
+  if (data.length > 1) {
+    data.forEach(i => {
+      console.log('aca', contador);
+      allServicePaid.value.push(data[contador]);
+      contador++;
+    })
+  }
+
+  if (data.length == 1){
+    allServicePaid.value.push(data[0]);
+  }
+  console.log("todo", allServicePaid.value[0].cost);
+
 }
 
 /**
@@ -108,11 +137,17 @@ const getServiceDone = async (id)=>{
  * Cambiar el estado signed de job_offered que era true a false, ya que no estará más contratado y podrá ser contratado por alguien más
  * Cambiar el estado de done de service a true ya que el servicio está realizado para que el usuario pueda listar los trabajos hechos
  */
-const workDone = (jobOfferedId,serviceId) => {
-  console.log("job",jobOfferedId,"service",serviceId);
+const workDone = (jobOfferedId, serviceId) => {
   updateIsActiveWorker(workerBack);
   updateSignedJobOffered(jobOfferedId);
   updateDoneService(serviceId);
+  toaster.show('Has terminado este trabajo, dentro de poco se realizará el pago', {
+    duration: 1000,
+    type: "success",
+    position: "top",
+    maxToasts: 1,
+
+  });
   /**
   updateIsActiveWorker(workerName);
   updateSignedJobOffered(jobOfferedId);
@@ -132,7 +167,7 @@ const workDone = (jobOfferedId,serviceId) => {
       </div>
 
       <div class="work-done-container card-body">
-        <div class="mb-3" v-for="(job, index) in [1, 2]" :key="index">
+        <div class="mb-3" v-for="(servicePaid, index) in allServicePaid" :key="index">
           <div class="container">
             <div class="card" style="width: 250px">
               <img class="card-img-top img-done" src="../../../../assets/work_done.png" alt="Card image" />
@@ -140,12 +175,13 @@ const workDone = (jobOfferedId,serviceId) => {
               <div class="card-body text-center">
                 <h4 class="card-title small">HAS TERMINADO UN SERVICIO</h4>
                 <p class="card-text small mb-1">
-                  Como <b> Médico </b>
+                  Has recibido: <b>${{ servicePaid.cost }}</b> (COP) a tu cuenta
                 </p>
+
                 <p class="card-text small mb-1">
-                  Has recibido: <b>$</b> (COP) a tu cuenta
+                  Contacto del cliente <b> {{ servicePaid.user_email }} </b>
                 </p>
-                <p class="mb-0 small ">Tu calificación fue:</p>
+                <p class="mb-0 small ">Tu calificación fue: <b>{{ servicePaid.service_stars }}</b></p>
                 <span class="date-text small fw-bold"></span>
               </div>
             </div>
@@ -184,7 +220,8 @@ const workDone = (jobOfferedId,serviceId) => {
                 </p>
                 <p class="mb-0 small ">Contacto:</p>
                 <span class="date-text small fw-bold">{{ service[0].user_email }}</span>
-                <button class="btn btn-primary mt-2" @click="workDone(jobAssigned[index].job_offered_id,service[0].service_id)">
+                <button class="btn btn-primary mt-2"
+                  @click="workDone(jobAssigned[index].job_offered_id, service[0].service_id)">
                   Terminado
                 </button>
               </div>

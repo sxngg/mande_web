@@ -123,7 +123,7 @@ const goToHomeWork = () => {
     maxToasts: 1,
   });
   setTimeout(() => {
-    $router.push("/worker-home");
+    $router.push("/worker-login");
   }, 1000);
 }
 </script>
