@@ -22,7 +22,6 @@ export const getAllServicePaid = async (job_offered_id)=>{
 }
 
 export const updateDoneService = async(serviceId) =>{
-    console.log('AHORA',serviceId);
     const {data} = await httpClient.put(`http://localhost:3000/mande/service/status/${serviceId}/true`);
     return data;
 }

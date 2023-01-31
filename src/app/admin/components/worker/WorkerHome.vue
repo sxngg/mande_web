@@ -25,6 +25,7 @@ let workIds = ref([]);
 const allWorks = ref([]);
 const allJobOfferedIds = ref([]);
 const allJobAssigned = ref();
+let disabled = ref(false);
 
 /**
  * Para traer los servicios ya terminados
@@ -127,7 +128,7 @@ const getServicePaid = async (id) => {
   if (data.length == 1){
     allServicePaid.value.push(data[0]);
   }
-  console.log("todo", allServicePaid.value[0].cost);
+  console.log("todo", allServicePaid.value);
 
 }
 
@@ -138,6 +139,7 @@ const getServicePaid = async (id) => {
  * Cambiar el estado de done de service a true ya que el servicio está realizado para que el usuario pueda listar los trabajos hechos
  */
 const workDone = (jobOfferedId, serviceId) => {
+  disabled.value = true;
   updateIsActiveWorker(workerBack);
   updateSignedJobOffered(jobOfferedId);
   updateDoneService(serviceId);
@@ -216,11 +218,11 @@ const workDone = (jobOfferedId, serviceId) => {
                   </div>
                 </div>
                 <p class="card-text small mb-1">
-                  Tu servicio tendrá un valor de: <b>${{ jobAssigned[index].cost_per_service }}</b> (COP)
+                  Tu servicio tendrá un valor de: <b>${{ jobAssigned[index].cost_per_service }}</b> (COP) por hora
                 </p>
                 <p class="mb-0 small ">Contacto:</p>
                 <span class="date-text small fw-bold">{{ service[0].user_email }}</span>
-                <button class="btn btn-primary mt-2"
+                <button class="btn btn-primary mt-2" :disabled="disabled"
                   @click="workDone(jobAssigned[index].job_offered_id, service[0].service_id)">
                   Terminado
                 </button>

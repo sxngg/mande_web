@@ -43,7 +43,7 @@ const checkedWorks = ref([]);
 
     });
         setTimeout(() => {
-          this.$router.push('/worker-job-selector');
+          this.$router.push('/worker-login');
         }, 1000)
 
       

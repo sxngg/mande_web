@@ -123,7 +123,7 @@ export default {
 body {
   background: url('../../../../assets/background.jpg');
   background-size: cover;
-  max-height: 100%;
+  height: 100vh;
 }
 
 .main-container {

@@ -2,7 +2,6 @@
 
   <body>
     <div class="card shadow border-0 mb-5">
-      <h1>email: {{ worker.email }} contraseña: {{ worker.phone }}</h1>
       <div class="card-body p-5">
         <h2 class="h4 mb-1 text-center">TRABAJOS QUE PUEDES OFRECER</h2>
         <p class="small text-muted font-italic mb-4 text-center">
@@ -71,7 +70,6 @@ const priceForHour = ref();
  */
 
 const jobOffered = ref({
-  job_offered_id: 20,
   worker_email: worker.value.email,
   worker_phone_number: worker.value.phone,
   cost_per_service: priceForHour,
@@ -123,7 +121,7 @@ const goToHomeWork = () => {
     maxToasts: 1,
   });
   setTimeout(() => {
-    $router.push("/worker-login");
+    $router.push("/worker-home");
   }, 1000);
 }
 </script>

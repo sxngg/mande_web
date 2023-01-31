@@ -21,6 +21,7 @@ let dateEnd = ref([]);
 const { user } = useUserState();
 const { service } = useServiceState();
 const $router = useRouter();
+let disabled = ref(false);
 
 
 onMounted(async () => {
@@ -51,6 +52,7 @@ const showJobsByWorkId = async (work) => {
 };
 
 const signJobOffered = (job, unts, dateBegin, dateEnd) => {
+    disabled.value = true;
     service.value.job_offered_id = job.job_offered_id;
     service.value.date_begin = dateBegin.substring(0, 10);
     service.value.date_end = dateEnd.substring(0, 10);
@@ -63,23 +65,23 @@ const signJobOffered = (job, unts, dateBegin, dateEnd) => {
     worker.phone_number = job.worker_phone_number;
     bussyWorker(worker);
     bussyJobOffered(service.value.job_offered_id);
-    toaster.show('Has contratado este servicio, mira en "ir a todos mis servicios" para saber el estado del servicio.', { 
-      duration:1000,
-      type: "success",
-      position: "top",
-      maxToasts: 1,
+    toaster.show('Has contratado este servicio, mira en "ir a todos mis servicios" para saber el estado del servicio.', {
+        duration: 1000,
+        type: "success",
+        position: "top",
+        maxToasts: 1,
 
     });
 };
 
-const goToAllServices = () =>{
+const goToAllServices = () => {
     $router.push("/user-all-services");
 }
 </script>
 <template>
 
     <body>
-        
+
         <div class="goToPayment d-flex justify-content-end">
             <button class="btn btn-primary" @click="goToAllServices"> Ir a todos mis servicios</button>
         </div>
@@ -97,7 +99,7 @@ const goToAllServices = () =>{
           card-body
           list-group-item-action list-group-item-light
           p-3
-        ">      
+        ">
                 <h1 class="h1 mb-1 text-center">BIENVENIDO</h1>
                 <h4 class="text-uppercase fw-weight-bold mb-0 text-center">
                     Escoge el servicio que estás buscando
@@ -169,7 +171,7 @@ const goToAllServices = () =>{
                                         <span class="date-text">{{ dateEnd[index] }}</span>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary" @click="signJobOffered(job, units[index],
+                                <button class="btn btn-primary" :disabled="disabled" @click="signJobOffered(job, units[index],
                                 dateBegin[index], dateEnd[index])">
                                     Contratar
                                 </button>

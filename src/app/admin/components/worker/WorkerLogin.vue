@@ -21,7 +21,7 @@ const authWorker = async () => {
       maxToasts: 1,
     });
     setTimeout(() => {
-      $router.push("/worker-home");
+      $router.push("/worker-job-selector");
     }, 1000);
   } else {
     toaster.show("Tus datos son incorrectos o no estás registrado aún", {
@@ -45,7 +45,6 @@ const worker = ref({
 </script>
 
 <template>
-  <h1>PADRE {{ worker.email }}</h1>
   <body class="text-center body-uslog">
     <div class="main-container">
       <form class="form-signin">

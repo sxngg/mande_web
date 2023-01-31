@@ -2,7 +2,6 @@ import { ref } from "vue";
 
 
 const service = ref({
-    service_id: 4,
     job_offered_id: ref(1),
     user_email: "",
     user_phone: "",
