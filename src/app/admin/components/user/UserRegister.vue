@@ -27,21 +27,17 @@ export default {
   methods: {
     async onStore() {
       console.log(this.client)
-      const data = await registerUser(this.client);
-      console.log(data);
+      //const data = await registerUser(this.client);
 
       toaster.show('Te has registrado con éxito', { 
-      duration:1000,
-      type: "success",
-      position: "top",
-      maxToasts: 1,
-
-    });
-        setTimeout(() => {
-          this.$router.push('/user-login');
-        }, 1000)
-
-      
+        duration:1000,
+        type: "success",
+        position: "top",
+        maxToasts: 1,
+      });
+      setTimeout(() => {
+        this.$router.push('/user-login');
+      }, 1000)
     },
     handleFileChange(e) {
       this.client.public_services = e.target.files[0];
@@ -54,35 +50,34 @@ export default {
 
   <body class="text-center body-uslog">
     <div class="main-container">
-      <form @submit.prevent="onStore" class="form-signin">
-        <div class="images">
-          <img class="user-img" src="../../../../assets/user.png">
-          <img class="who-img" src="../../../../assets/who.png">
-        </div>
-        <h1 class="h1 mb-3 font-weight-normal">EMPIEZA AHORA</h1>
-        <h3 class="h3 mb-3 font-weight-normal"> REGISTRATE COMO <b>USUARIO</b></h3>
-        <div class="container-form">
+      <div class="images">
+        <img class="user-img" src="../../../../assets/user.png">
+        <img class="who-img" src="../../../../assets/who.png">
+      </div>
+      <h1 class="h1 mb-3 font-weight-normal">EMPIEZA AHORA</h1>
+      <h3 class="h3 mb-3 font-weight-normal"> REGISTRATE COMO <b>USUARIO</b></h3>
+      <div class="container-form">
+        <form class="form-signin" action="http://localhost:3000/mande/user/add" enctype="multipart/form-data" method="post">
           <div class="row">
             <div class="col-md-6 mb-4">
               <div class="form-outline">
                 <input type="text" id="form3Example1m" v-model="client.user_name"
-                  class="form-control form-control-lg" />
+                  class="form-control form-control-lg" name="user_name"/>
                 <label class="form-label" for="form3Example1m">Nombre</label>
               </div>
             </div>
             <div class="col-md-6 mb-4">
               <div class="form-outline">
                 <input type="text" id="form3Example1n" v-model="client.user_last_name"
-                  class="form-control form-control-lg" />
+                  class="form-control form-control-lg" name="user_last_name"/>
                 <label class="form-label" for="form3Example1n">Apellido</label>
               </div>
             </div>
           </div>
-
           <div class="row">
             <div class="col-md-6 mb-4">
               <div class="form-outline mb-4">
-                <input type="email" id="form3Example8" v-model="client.email" class="form-control form-control-lg" />
+                <input type="email" id="form3Example8" v-model="client.email" class="form-control form-control-lg" name="email"/>
                 <label class="form-label" for="form3Example8">Email</label>
               </div>
             </div>
@@ -90,50 +85,53 @@ export default {
             <div class="col-md-6 mb-4">
               <div class="form-outline mb-4">
                 <input type="text" id="form3Example8" v-model="client.phone_number"
-                  class="form-control form-control-lg" />
+                  class="form-control form-control-lg" name="phone_number"/>
                 <label class="form-label" for="form3Example8">Telefono</label>
               </div>
             </div>
           </div>
+
           <div class="form-outline mb-4">
-            <input type="text" id="form3Example97" v-model="client.address" class="form-control form-control-lg" />
+            <input type="text" id="form3Example97" name="address" v-model="client.address" class="form-control form-control-lg" />
             <label class="form-label" for="form3Example97">Dirección de residencia</label>
           </div>
 
           <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
 
             <label for="method">Metodo de pago</label>
-            <select id="method" class="form-select" v-model="client.payment_method">
+            <select id="method" class="form-select" v-model="client.payment_method" name="payment_method">
               <option value="efectivo">Efectivo</option>
               <option value="debito">Débito</option>
             </select>
           </div>
-
+          
           <div class="form-outline">
-            <input class="form-control  form-control-sm" id="formFileSm" type="file" @change="handleFileChange" />
+            <input type="file" name="public_services" class="form-control  form-control-sm" id="formFileSm" @change="handleFileChange">
             <label v-if="client.public_services" for="formFileSm" class="form-label"></label>
             <label>Recibo público</label>
-
+            <!---
+              <input type="submit" value="Get me the stats!" class="btn btn-default">
+              <input class="form-control  form-control-sm" id="formFileSm" type="file" name="public_services" @change="handleFileChange" />
+              <label v-if="client.public_services" for="formFileSm" class="form-label"></label>
+              <label>Recibo público</label>
+            -->
           </div>
+          <div class="btn-container">
+            <button class="btn btn-lg btn-primary btn-block btn-ingresar"
+              :disabled="!client.user_name || !client.user_last_name || !client.email || !client.phone_number || !client.address || !client.payment_method || !client.public_services"
+              type="submit" @click="onStore">Registrarse</button>
+          </div>
+        </form>
 
 
+      </div>
 
-        </div>
+      <div class="link-to-register mb-3">
+        <p> ¿Ya tienes una cuenta?
+          <RouterLink class="link-to-register-user" to="/user-login">Ingresa</RouterLink>
+        </p>
 
-        <div class="btn-container">
-          <button class="btn btn-lg btn-primary btn-block btn-ingresar"
-            :disabled="!client.user_name || !client.user_last_name || !client.email || !client.phone_number || !client.address || !client.payment_method || !client.public_services"
-            type="submit">Registrarse</button>
-        </div>
-        <div class="link-to-register mb-3">
-          <p> ¿Ya tienes una cuenta?
-            <RouterLink class="link-to-register-user" to="/user-login">Ingresa</RouterLink>
-          </p>
-
-        </div>
-
-
-      </form>
+      </div>
       <footer class="mastfoot mt-auto">
         <div class="inner">
           <p> Proyecto universitario <br> <b>Universidad del Valle</b></p>
